@@ -14,6 +14,7 @@ Branding is intentionally NOT here — it is per-site (see ``branding.py``).
 import json
 
 import frappe
+from frappe.custom.doctype.custom_field.custom_field import create_custom_fields
 from frappe.permissions import add_permission, update_permission_property
 
 SYSTEM_MANAGER = "System Manager"
@@ -93,9 +94,28 @@ def setup_calendar():
 	ws.save()
 
 
+def ensure_custom_fields():
+	# Per-site navbar theme colour, editable from the UI (Website Settings → Brand Color)
+	create_custom_fields(
+		{
+			"Website Settings": [
+				{
+					"fieldname": "brand_color",
+					"label": "Brand Color",
+					"fieldtype": "Color",
+					"insert_after": "app_name",
+					"description": "Navbar theme colour for this site (ERPNext Ext)",
+				}
+			]
+		},
+		ignore_validate=True,
+	)
+
+
 def after_migrate():
 	"""Entry point wired in hooks.py. Kept resilient so a failure never breaks migrate."""
 	try:
+		ensure_custom_fields()
 		setup_calendar()
 		apply_workspace_role_hiding()
 		frappe.db.commit()
