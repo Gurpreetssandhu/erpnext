@@ -22,11 +22,14 @@ add_to_apps_screen = [
 
 develop_version = "15.x.x-develop"
 
-app_include_js = "erpnext.bundle.js"
+app_include_js = ["erpnext.bundle.js", "erpnext_ext.bundle.js"]  # erpnext_ext: custom desk JS (calendar redirect)
 app_include_css = "erpnext.bundle.css"
 web_include_js = "erpnext-web.bundle.js"
 web_include_css = "erpnext-web.bundle.css"
 email_css = "email_erpnext.bundle.css"
+
+# erpnext_ext: make calendar sidebar item + module-hiding roles permanent on every migrate
+after_migrate = ["erpnext.erpnext_ext.setup.after_migrate"]
 
 doctype_js = {
 	"Address": "public/js/address.js",
