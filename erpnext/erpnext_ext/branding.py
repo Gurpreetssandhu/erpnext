@@ -17,8 +17,8 @@ import frappe
 BRANDS = {
 	"rs_honda": {
 		"app_name": "RS Honda",
-		"logo": "/files/honda-brand.svg",  # Honda mark + "RS Honda" lockup
-		"favicon": "/files/honda-logo.png",  # square mark
+		"logo": "/files/honda-brand-white.svg",  # white Honda mark + "RS Honda" lockup (visible on red navbar)
+		"favicon": "/files/honda-logo.png",  # square colour mark (favicon + login splash)
 		"color": "#cc0000",  # Honda red — navbar theme
 	},
 	"wefarms": {
