@@ -161,7 +161,7 @@ def setup_inventory_alerts():
 	ws.set(
 		"shortcuts",
 		[
-			{"type": "Report", "label": "Low Stock Items", "link_to": "Low Stock Items", "doc_view": "Report", "color": "Yellow"},
+			{"type": "Report", "label": "Low Stock Items", "link_to": "Low Stock Items", "color": "Yellow"},
 			{"type": "DocType", "label": "Alert Log", "link_to": "Inventory Alert Log", "color": "Grey"},
 			{"type": "DocType", "label": "Alert Settings", "link_to": "Inventory Alert Settings", "color": "Blue"},
 		],
