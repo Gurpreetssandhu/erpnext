@@ -1,0 +1,27 @@
+{
+ "add_total_row": 0,
+ "columns": [],
+ "creation": "2026-06-16 00:00:00",
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [],
+ "idx": 0,
+ "is_standard": "Yes",
+ "letterhead": null,
+ "modified": "2026-06-16 00:00:00",
+ "module": "ERPNext Ext",
+ "name": "Low Stock Items",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "query": "SELECT b.item_code AS \"Item:Link/Item:200\", b.warehouse AS \"Warehouse:Link/Warehouse:200\", b.actual_qty AS \"Actual Qty:Float:110\", b.projected_qty AS \"Projected Qty:Float:110\", ir.warehouse_reorder_level AS \"Reorder Level:Float:110\", (ir.warehouse_reorder_level - b.projected_qty) AS \"Shortfall:Float:110\", ir.warehouse_reorder_qty AS \"Suggested Order Qty:Float:140\" FROM `tabBin` b INNER JOIN `tabItem Reorder` ir ON ir.parent = b.item_code AND ir.warehouse = b.warehouse INNER JOIN `tabItem` i ON i.name = b.item_code WHERE i.disabled = 0 AND i.is_stock_item = 1 AND ir.warehouse_reorder_level > 0 AND b.projected_qty <= ir.warehouse_reorder_level ORDER BY (ir.warehouse_reorder_level - b.projected_qty) DESC",
+ "ref_doctype": "Bin",
+ "report_name": "Low Stock Items",
+ "report_type": "Query Report",
+ "roles": [
+  {"role": "System Manager"},
+  {"role": "Stock Manager"},
+  {"role": "Stock User"},
+  {"role": "Purchase Manager"}
+ ]
+}

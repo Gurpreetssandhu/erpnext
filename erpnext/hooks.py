@@ -425,6 +425,7 @@ scheduler_events = {
 	},
 	"hourly": [
 		"erpnext.projects.doctype.project.project.hourly_reminder",
+		"erpnext.erpnext_ext.inventory_alerts.run_hourly",  # erpnext_ext: inventory alerts (Hourly mode)
 	],
 	"hourly_long": [],
 	"hourly_maintenance": [
@@ -435,7 +436,9 @@ scheduler_events = {
 		"erpnext.erpnext_integrations.doctype.plaid_settings.plaid_settings.automatic_synchronization",
 		"erpnext.utilities.doctype.video.video.update_youtube_data",
 	],
-	"daily": [],
+	"daily": [
+		"erpnext.erpnext_ext.inventory_alerts.run_daily",  # erpnext_ext: inventory alerts (Daily digest)
+	],
 	"daily_long": [],
 	"daily_maintenance": [
 		"erpnext.support.doctype.issue.issue.auto_close_tickets",

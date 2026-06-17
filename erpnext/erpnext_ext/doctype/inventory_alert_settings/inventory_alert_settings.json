@@ -1,0 +1,44 @@
+{
+ "actions": [],
+ "creation": "2026-06-16 00:00:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "enabled",
+  "frequency",
+  "expiry_days",
+  "alert_types_section",
+  "check_low_stock",
+  "check_negative_stock",
+  "channels_section",
+  "send_in_app",
+  "send_email",
+  "recipients_section",
+  "recipients"
+ ],
+ "fields": [
+  {"fieldname": "enabled", "fieldtype": "Check", "label": "Enabled", "default": "1"},
+  {"fieldname": "frequency", "fieldtype": "Select", "label": "Frequency", "options": "Daily\nHourly\nReal-time", "default": "Daily"},
+  {"fieldname": "expiry_days", "fieldtype": "Int", "label": "Expiry Window (days)", "default": "30", "description": "Reserved for future expiry alerts"},
+  {"fieldname": "alert_types_section", "fieldtype": "Section Break", "label": "Alert Types"},
+  {"fieldname": "check_low_stock", "fieldtype": "Check", "label": "Alert on Low Stock (below reorder level)", "default": "1"},
+  {"fieldname": "check_negative_stock", "fieldtype": "Check", "label": "Alert on Out of Stock / Negative", "default": "1"},
+  {"fieldname": "channels_section", "fieldtype": "Section Break", "label": "Channels"},
+  {"fieldname": "send_in_app", "fieldtype": "Check", "label": "In-App Notification", "default": "1"},
+  {"fieldname": "send_email", "fieldtype": "Check", "label": "Email", "default": "0", "description": "Requires an outgoing Email Account (SMTP)"},
+  {"fieldname": "recipients_section", "fieldtype": "Section Break", "label": "Recipients"},
+  {"fieldname": "recipients", "fieldtype": "Table", "label": "Recipients", "options": "Inventory Alert Recipient"}
+ ],
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-06-16 00:00:00",
+ "module": "ERPNext Ext",
+ "name": "Inventory Alert Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {"role": "System Manager", "read": 1, "write": 1, "create": 1},
+  {"role": "Stock Manager", "read": 1, "write": 1}
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC"
+}

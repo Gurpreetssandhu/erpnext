@@ -1,0 +1,46 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2026-06-16 00:00:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "alert_type",
+  "item_code",
+  "warehouse",
+  "column_break_1",
+  "actual_qty",
+  "projected_qty",
+  "reorder_level",
+  "alert_date",
+  "section_break_1",
+  "channels",
+  "message"
+ ],
+ "fields": [
+  {"fieldname": "alert_type", "fieldtype": "Select", "label": "Alert Type", "options": "Low Stock\nNegative Stock", "in_list_view": 1, "in_standard_filter": 1},
+  {"fieldname": "item_code", "fieldtype": "Link", "label": "Item", "options": "Item", "in_list_view": 1, "in_standard_filter": 1},
+  {"fieldname": "warehouse", "fieldtype": "Link", "label": "Warehouse", "options": "Warehouse", "in_list_view": 1, "in_standard_filter": 1},
+  {"fieldname": "column_break_1", "fieldtype": "Column Break"},
+  {"fieldname": "actual_qty", "fieldtype": "Float", "label": "Actual Qty"},
+  {"fieldname": "projected_qty", "fieldtype": "Float", "label": "Projected Qty"},
+  {"fieldname": "reorder_level", "fieldtype": "Float", "label": "Reorder Level"},
+  {"fieldname": "alert_date", "fieldtype": "Datetime", "label": "Alert Date", "in_list_view": 1, "in_standard_filter": 1},
+  {"fieldname": "section_break_1", "fieldtype": "Section Break"},
+  {"fieldname": "channels", "fieldtype": "Data", "label": "Channels Sent"},
+  {"fieldname": "message", "fieldtype": "Small Text", "label": "Message"}
+ ],
+ "links": [],
+ "modified": "2026-06-16 00:00:00",
+ "module": "ERPNext Ext",
+ "name": "Inventory Alert Log",
+ "owner": "Administrator",
+ "default_sort_field": "alert_date",
+ "sort_field": "alert_date",
+ "sort_order": "DESC",
+ "permissions": [
+  {"role": "System Manager", "read": 1, "write": 1, "create": 1, "delete": 1, "report": 1, "export": 1},
+  {"role": "Stock Manager", "read": 1, "report": 1, "export": 1},
+  {"role": "Stock User", "read": 1, "report": 1}
+ ]
+}

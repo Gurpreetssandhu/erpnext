@@ -112,12 +112,80 @@ def ensure_custom_fields():
 	)
 
 
+def _ensure_number_card(label, props):
+	existing = frappe.db.get_value("Number Card", {"label": label})
+	if existing:
+		return existing
+	doc = frappe.get_doc({"doctype": "Number Card", "label": label, "is_public": 1, "module": "ERPNext Ext", **props})
+	doc.flags.ignore_permissions = True
+	doc.insert()
+	return doc.name
+
+
+def setup_inventory_alerts():
+	"""Inventory Alerts dashboard: number cards + workspace (idempotent)."""
+	low = _ensure_number_card(
+		"Low Stock Items",
+		{"type": "Custom", "method": "erpnext.erpnext_ext.inventory_alerts.get_low_stock_count"},
+	)
+	neg = _ensure_number_card(
+		"Out of Stock / Negative",
+		{"type": "Document Type", "document_type": "Bin", "function": "Count", "filters_json": json.dumps([["Bin", "actual_qty", "<=", 0]])},
+	)
+	logged = _ensure_number_card(
+		"Inventory Alerts Logged",
+		{"type": "Document Type", "document_type": "Inventory Alert Log", "function": "Count", "filters_json": json.dumps([])},
+	)
+
+	content = json.dumps(
+		[
+			{"id": "iah", "type": "header", "data": {"text": '<span class="h4"><b>Inventory Alerts</b></span>', "col": 12}},
+			{"id": "ianc1", "type": "number_card", "data": {"number_card_name": low, "col": 4}},
+			{"id": "ianc2", "type": "number_card", "data": {"number_card_name": neg, "col": 4}},
+			{"id": "ianc3", "type": "number_card", "data": {"number_card_name": logged, "col": 4}},
+			{"id": "iasc1", "type": "shortcut", "data": {"shortcut_name": "Low Stock Items", "col": 4}},
+			{"id": "iasc2", "type": "shortcut", "data": {"shortcut_name": "Alert Log", "col": 4}},
+			{"id": "iasc3", "type": "shortcut", "data": {"shortcut_name": "Alert Settings", "col": 4}},
+		]
+	)
+	if frappe.db.exists("Workspace", "Inventory Alerts"):
+		ws = frappe.get_doc("Workspace", "Inventory Alerts")
+	else:
+		ws = frappe.new_doc("Workspace")
+		ws.title = "Inventory Alerts"
+		ws.label = "Inventory Alerts"
+	ws.public = 1
+	ws.icon = "alert"
+	ws.sequence_id = 98
+	ws.content = content
+	ws.set(
+		"shortcuts",
+		[
+			{"type": "Report", "label": "Low Stock Items", "link_to": "Low Stock Items", "doc_view": "Report", "color": "Yellow"},
+			{"type": "DocType", "label": "Alert Log", "link_to": "Inventory Alert Log", "color": "Grey"},
+			{"type": "DocType", "label": "Alert Settings", "link_to": "Inventory Alert Settings", "color": "Blue"},
+		],
+	)
+	ws.set(
+		"number_cards",
+		[
+			{"number_card_name": low, "label": "Low Stock Items"},
+			{"number_card_name": neg, "label": "Out of Stock / Negative"},
+			{"number_card_name": logged, "label": "Inventory Alerts Logged"},
+		],
+	)
+	ws.set("roles", [{"role": "Stock User"}, {"role": "Stock Manager"}, {"role": "Purchase Manager"}, {"role": "System Manager"}])
+	ws.flags.ignore_permissions = True
+	ws.save()
+
+
 def after_migrate():
 	"""Entry point wired in hooks.py. Kept resilient so a failure never breaks migrate."""
 	try:
 		ensure_custom_fields()
 		setup_calendar()
 		apply_workspace_role_hiding()
+		setup_inventory_alerts()
 		frappe.db.commit()
 	except Exception:
 		frappe.log_error(title="erpnext_ext after_migrate failed")
